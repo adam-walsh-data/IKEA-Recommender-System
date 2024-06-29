@@ -1,0 +1,47 @@
+exp_class: "RetailRocket-Comparison"
+exp_name: "paper_SQN"
+script_path: "./scripts/sqn_gru_train.py"
+
+experiment:
+  desc: "SQN from paper"
+  use_wandb: True
+  use_tensorboard: True
+  tensorboard_root: "tensorboard"
+  seed_torch: 123
+  seed_python: 345
+
+data:
+  train_path: "./data/SMORL-RetailRocket/replay_buffer_end_OGPaperRew.df"
+  val_path: "./data/SMORL-RetailRocket/sampled_val.df"
+  test_path: "./data/SMORL-RetailRocket/sampled_val.df"
+  num_items: 70852
+
+train:
+  batch_size: 256
+  val_batch_size: 2000
+  epochs: 30
+  learning_rate: 0.005
+  embedding_size: 64
+  hidden_state_size: 64
+  gamma: 0.5
+  base_model: "GRU"
+  device: "cuda"
+  padding_position: "end"
+  padding_id: 70852
+  train_padding_embed: True
+  use_packed_seq: True
+  best_model_metric: "Val_NDCG@10"
+  head_idx: 0
+  state_size: 10
+  gru_layers: 1
+  
+
+metrics:
+  div_emb_dir:  "./data/SMORL-RetailRocket/OG_embeddings.pt"
+  unpopular_actions_path: "./data/SMORL-RetailRocket/unpopular_items.pkl"
+  topk_cov: [1,5,10,20]
+  topk_div: 1  
+  topk_hr_ndcg: [10,20]
+  topk_nov: 1
+  nov_rew_sig: 1
+

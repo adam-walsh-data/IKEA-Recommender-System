@@ -1,0 +1,52 @@
+exp_class: "First-Experiments"
+exp_name: "QSlate-div-embedding-64"
+script_path: "./scripts/IKEA/training/qslate_train.py"
+
+experiment:
+  desc: "SlateQ."
+  use_wandb: True
+  use_tensorboard: False
+  tensorboard_root: "tensorboard"
+  seed_torch: 118
+  seed_python: 311
+  save_pretrained_embeddings: True
+
+data:
+  train_path:  "gs://adams_recommender_bucket/data/replay_buffers/replay_buffer_train1_SL10_1.json"
+  val_path: "gs://adams_recommender_bucket/data/replay_buffers/replay_buffer_val1_SL10_1.json"
+  test_path: "gs://adams_recommender_bucket/data/replay_buffers/replay_buffer_test1_SL10_1.json"
+  input_tokenizer: "gs://adams_recommender_bucket/data/tokenizers/input_tokenizer_new.json"
+  output_tokenizer: "gs://adams_recommender_bucket/data/tokenizers/output_tokenizer_new.json"
+  market_tokenizer: "gs://adams_recommender_bucket/data/tokenizers/market_tokenizer.json"
+
+train:
+  batch_size: 256
+  val_batch_size: 5000
+  epochs: 8
+  learning_rate: 0.0005
+  embedding_size: 64
+  hidden_state_size: 64
+  gamma: 0.5
+  base_model: "GRU"
+  device: "cuda"
+  padding_position: "end"
+  train_padding_embed: True
+  use_packed_seq: True
+  best_model_metric: "Val_NDCG@12"
+  head_idx: 0
+  state_size: 10
+  gru_layers: 1
+  
+
+metrics:
+  div_emb_dir: "gs://adams_recommender_bucket/data/eval_prereqs/random_embedding_weights.pt"
+  unpopular_actions_path: "gs://adams_recommender_bucket/data/eval_prereqs/unpopular_images.json"
+  topk_cov: [1,6,12]
+  topk_div: 12  
+  topk_hr_ndcg: [1,6,12]
+  topk_nov: 12
+  nov_rew_sig: 1
+  eval_at: [0.25, 0.5, 0.75, 1]
+
+wandb_key: "local-c7909b7d0de8a98006d0aa999125094b1463a2b4"
+

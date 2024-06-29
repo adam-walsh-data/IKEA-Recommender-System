@@ -1,0 +1,49 @@
+exp_class: "SMORL-RetailRocket"
+exp_name: "SMORL_GRU_end_no_train_pad"
+
+experiment:
+  desc: "SMORL model with similar parameters to paper, just playing around with padding"
+  use_wandb: True
+  use_tensorboard: True
+  tensorboard_root: "tensorboard"
+  show_progress_bar: False
+  seed_torch: 123
+  seed_python: 345
+
+data:
+  train_path: "./data/SMORL-RetailRocket/replay_buffer_end.df"
+  val_path: "./data/SMORL-RetailRocket/sampled_val.df"
+  test_path: "./data/SMORL-RetailRocket/sampled_val.df"
+  num_items: 70852
+
+train:
+  batch_size: 256
+  val_batch_size: 2000
+  epochs: 10
+  learning_rate: 0.005
+  embedding_size: 64
+  hidden_state_size: 64
+  gamma: 0.5
+  alpha: 1
+  base_model: "GRU"
+  device: "cuda"
+  padding_position: "end"
+  padding_id: 70852
+  train_padding_embed: False
+  use_packed_seq: False
+  best_model_metric: "Val_NDCG@10"
+  head_idx: 0
+  state_size: 10
+  gru_layers: 1
+  q_weights: [1,1,1]
+  
+
+metrics:
+  div_emb_dir: "./experiments/GRU4Rec/GRU_opt3_packed_lowerLR/embedding_weights.pt"
+  unpopular_actions_path: "./data/SMORL-RetailRocket/unpopular_items.pkl"
+  topk_cov: [1,5,10,20]
+  topk_div: 1  
+  topk_hr_ndcg: [10,20]
+  topk_nov: 1
+  nov_rew_sig: 1
+

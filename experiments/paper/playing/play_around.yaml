@@ -1,0 +1,49 @@
+# The other one does not make sense since replay buffer fixed ergo: take transformation function for both!
+experiment:
+  exp_class: "Playing_Around"
+  exp_name: "Exp_99"
+  desc: "Blabla"
+  use_wandb: False
+  use_tensorboard: False
+  tensorboard_root: "tensorboard"
+  seed_torch: 118
+  seed_python: 999
+
+data:
+  train_path: "../../data/RetailRocket/replay_buffer.df"
+  val_path: "../../data/RetailRocket/sampled_val.df"
+  test_path: "../../data/RetailRocket/sampled_test.df"
+  num_items: 70852
+
+train:
+  batch_size: 2000
+  val_batch_size: 5000
+  epochs: 1
+  learning_rate: 0.005
+  embedding_size: 64
+  hidden_state_size: 64
+  gamma: 0.5
+  base_model: "GRU"
+  device: "cuda"
+  padding_position: "end"
+  padding_id: 70852
+
+metrics:
+  top_k: 
+    - 5
+    - 10
+    - 20
+
+actions:
+  action_types:
+    - 0
+    - 1
+  action_types_names:
+    0: "click"
+    1: "buy"
+  action_to_reward:
+    0: 0.2
+    1: 1
+
+states: 
+  state_size: 10

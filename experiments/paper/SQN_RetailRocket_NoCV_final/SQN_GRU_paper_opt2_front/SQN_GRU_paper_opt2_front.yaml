@@ -1,0 +1,53 @@
+exp_class: "SQN_RetailRocket_NoCV_final"
+exp_name: "SQN_GRU_paper_opt2_front"
+
+experiment:
+  desc: "SQN model on RetailRocket with same parameters as paper but front padding (NOT incl. trainable padding) - no cross validation"
+  use_wandb: True
+  use_tensorboard: True
+  tensorboard_root: "tensorboard"
+  show_progress_bar: False
+  seed_torch: 123
+  seed_python: 345
+
+data:
+  train_path: "./data/RetailRocket/replay_buffer_front_pad.df"
+  val_path: "./data/RetailRocket/sampled_val.df"
+  test_path: "./data/RetailRocket/sampled_val.df"
+  num_items: 70852
+
+train:
+  batch_size: 256
+  val_batch_size: 5000
+  epochs: 10
+  learning_rate: 0.005
+  embedding_size: 64
+  hidden_state_size: 64
+  gamma: 0.5
+  base_model: "GRU"
+  device: "cuda"
+  padding_position: "beg"
+  padding_id: 70852
+  train_padding_embed: False
+  use_packed_seq: False
+  best_model_metric: "Val_NDCG@10[Click]"
+
+metrics:
+  top_k: 
+    - 5
+    - 10
+    - 20
+
+actions:
+  action_types:
+    - 0
+    - 1
+  action_types_names:
+    0: "click"
+    1: "buy"
+  action_to_reward:
+    0: 0.2
+    1: 1
+
+states: 
+  state_size: 10

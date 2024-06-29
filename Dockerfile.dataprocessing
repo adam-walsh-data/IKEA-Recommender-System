@@ -1,0 +1,23 @@
+FROM python:3.9
+
+# Copies to container directory 
+COPY recommenders ./Recommender-Models/recommenders
+COPY setup.py ./Recommender-Models/
+COPY scripts ./Recommender-Models/scripts
+COPY docker/req_prepro.txt ./Recommender-Models/
+
+RUN echo "All files successfully copied." 
+
+# Set working directory
+WORKDIR /Recommender-Models
+
+# Set the execute permission for the shell script
+RUN chmod +x ./scripts/IKEA/data/create_all_buffers.sh
+
+# Install dependencies
+RUN pip install -r req_prepro.txt
+RUN pip install .
+
+RUN echo "All dependencies successfully installed." 
+
+ENTRYPOINT ["./scripts/IKEA/data/create_all_buffers.sh"]  

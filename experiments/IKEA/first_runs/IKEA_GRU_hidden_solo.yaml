@@ -1,0 +1,55 @@
+exp_class: "First-Experiments"
+exp_name: "GRU_bigger_hidden_solo"
+script_path: "./scripts/IKEA/training/gru4rec_train.py"
+
+experiment:
+  desc: "Increased hidden size to 128."
+  use_wandb: True
+  use_tensorboard: False
+  tensorboard_root: "tensorboard"
+  seed_torch: 123
+  seed_python: 345
+  save_pretrained_embeddings: True
+
+data:
+  train_path:  "gs://patricks-bucket/data/replay_buffers/replay_buffer_train.json"
+  val_path: "gs://patricks-bucket/data/replay_buffers/replay_buffer_val.json"
+  test_path: "gs://patricks-bucket/data/replay_buffers/replay_buffer_val.json"
+  input_tokenizer: "gs://patricks-bucket/data/tokenizers/input_tokenizer.json"
+  output_tokenizer: "gs://patricks-bucket/data/tokenizers/output_tokenizer.json"
+  market_tokenizer: "gs://patricks-bucket/data/tokenizers/market_tokenizer.json"
+
+train:
+  batch_size: 256
+  val_batch_size: 5000
+  epochs: 8
+  learning_rate: 0.001
+  embedding_size: 64
+  hidden_state_size: 128
+  gamma: 0.5
+  alpha: 1
+  base_model: "GRU"
+  device: "cuda"
+  padding_position: "end"
+  train_padding_embed: True
+  use_packed_seq: True
+  best_model_metric: "Val_NDCG@12"
+  head_idx: 0
+  state_size: 10
+  gru_layers: 1
+  q_weights: [1,1,1]
+  
+
+metrics:
+  div_emb_dir: "gs://patricks-bucket/data/evaluation_prereqs/random_embedding_weights.pt"
+  unpopular_actions_path: "gs://patricks-bucket/data/evaluation_prereqs/unpopular_images.json"
+  topk_cov: [1,5,10,20]
+  topk_div: 1  
+  topk_hr_ndcg: [1,6,12]
+  topk_nov: 1
+  nov_rew_sig: 1
+  eval_at: [0.25, 0.5, 0.75, 1]
+
+
+wandb_key: "8ecf7403a425fa8a096aeedbe252d23586e2a4cc"
+
