@@ -11,7 +11,7 @@ There are a handful of methods and classes required to run any of the models. Th
 Data Preparation
 You'll find all the important scripts for handling the data in the scripts/IKEA/data/ folder. Notice: No data is present in this github.
 
-Step 1: Preprocess, Split, and Upload
+Preprocess, Split, and Upload
 First, we take the data chunks in JSON format from GCP, clean them up, combine them into one big file, split this into train, validation, and test sets, and then upload everything back to GCP. This is all handled by the preprocess_split_upload.sh script. Rewards were added via a gcp notebook later on and redownloaded
 
 Creating the Data Loader preprocessed data. 
