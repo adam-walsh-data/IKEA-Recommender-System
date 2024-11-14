@@ -1,6 +1,6 @@
 ## Intro
 
-Hi I'm Adam Walsh. This is a project I developed along with IKEA. Code was built on top of existing work done by a previous student. 
+ This is a project I developed along with IKEA. Code was built on top of existing work done by a previous student. 
 
 ## Package 
 There are a handful of methods and classes required to run any of the models. They are in the recommenders folder. It is required to install this package.
